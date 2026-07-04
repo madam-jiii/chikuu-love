@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>100 Reasons · Chikuu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body { background:#0a0a1a; color:#fff; overflow-x:hidden; cursor:default; }
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#1a1a2e; }
+    ::-webkit-scrollbar-thumb { background:#ff6b81; border-radius:10px; }
+    .playfair { font-family:'Playfair Display',serif; }
+    .glass-nav,.glass-card,.glass-footer,.progress-glass {
+      background:rgba(255,255,255,0.06);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,0.12);
+      box-shadow:0 8px 32px rgba(0,0,0,0.4);
+      border-radius:20px;
+    }
+    #app { min-height:100vh; }
+    .page { display:none; min-height:100vh; }
+    .page.active { display:block; animation:fadeIn 0.5s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+    .landing {
+      min-height:100vh; display:flex; align-items:center; justify-content:center;
+      position:relative; overflow:hidden;
+    }
+    .landing-bg {
+      position:absolute; inset:0;
+      background: url('assets/images/bg.jpg') center/cover no-repeat;
+      filter:brightness(0.5) saturate(1.2); z-index:0; transform:scale(1.05);
+    }
+    .landing-bg::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(10,10,26,0.7),rgba(26,26,62,0.5),rgba(42,26,62,0.7));
+    }
+    .landing-card {
+      padding:3rem 4rem; text-align:center; z-index:10; max-width:700px;
+      animation:floatIn 1.2s ease-out;
+      background:rgba(10,10,26,0.7); backdrop-filter:blur(20px);
+      border:1px solid rgba(255,255,255,0.15);
+    }
+    .landing-card h1 { font-size:3.5rem; color:#ff6b81; text-shadow:0 0 40px rgba(255,107,129,0.4); }
+    .landing-card .subtitle { font-size:1.4rem; color:#f0e6ff; margin:0.5rem 0 2rem; letter-spacing:2px; }
+    .btn-group { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+    .btn {
+      padding:0.8rem 2rem; border:none; border-radius:50px;
+      background:linear-gradient(135deg,#ff6b81,#ff4757); color:#fff;
+      font-weight:600; font-size:1rem; cursor:pointer; transition:0.3s;
+      box-shadow:0 4px 20px rgba(255,107,129,0.3);
+      display:inline-flex; align-items:center; gap:10px;
+    }
+    .btn:hover { transform:scale(1.05); box-shadow:0 8px 30px rgba(255,107,129,0.5); }
+    .icon-btn {
+      width:48px; height:48px; padding:0; justify-content:center; border-radius:50%;
+      background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); color:#fff;
+    }
+    .icon-btn:hover { background:rgba(255,107,129,0.3); }
+    .pulse-btn { animation:pulse 2s infinite; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(255,107,129,0.4);}70%{box-shadow:0 0 0 20px rgba(255,107,129,0);}100%{box-shadow:0 0 0 0 rgba(255,107,129,0);} }
+    @keyframes floatIn { 0%{opacity:0;transform:translateY(40px) scale(0.95);}100%{opacity:1;transform:translateY(0) scale(1);} }
+    #particles { position:absolute; inset:0; pointer-events:none; z-index:1; }
+    .particle {
+      position:absolute; border-radius:50%; background:rgba(255,107,129,0.4);
+      animation:floatParticle 12s infinite alternate;
+    }
+    @keyframes floatParticle { 0%{transform:translate(0,0) scale(0.8);opacity:0.3;}100%{transform:translate(40px,-60px) scale(1.2);opacity:0.6;} }
+    .floating-hearts { position:absolute; inset:0; pointer-events:none; z-index:0; }
+    .heart-float {
+      position:absolute; font-size:1.8rem; color:rgba(255,107,129,0.2);
+      animation:riseHeart 14s infinite linear;
+    }
+    @keyframes riseHeart { 0%{transform:translateY(100vh) rotate(0deg);opacity:0.2;}100%{transform:translateY(-20vh) rotate(720deg);opacity:0;} }
+    .glass-nav {
+      position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between;
+      padding:0.8rem 2rem; flex-wrap:wrap;
+      background:rgba(10,10,26,0.7); backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size:1.4rem; font-weight:700; color:#ff6b81; }
+    .nav-logo i { margin-right:8px; }
+    .nav-controls { display:flex; gap:0.8rem; align-items:center; }
+    .progress-indicator { background:rgba(255,255,255,0.08); padding:0.3rem 1rem; border-radius:30px; font-size:0.85rem; }
+    .section { padding:4rem 2rem; max-width:1400px; margin:0 auto; }
+    .surprise-section { min-height:80vh; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+    .section-header {
+      display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center;
+      gap:1rem; margin-bottom:2rem;
+    }
+    .filters { display:flex; gap:0.5rem; flex-wrap:wrap; }
+    .filter-btn {
+      background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
+      padding:0.4rem 1.2rem; border-radius:30px; color:#ccc; cursor:pointer; transition:0.3s;
+    }
+    .filter-btn.active,.filter-btn:hover { background:#ff6b81; color:#fff; border-color:#ff6b81; }
+    .search-box {
+      display:flex; align-items:center; background:rgba(255,255,255,0.06);
+      border-radius:30px; padding:0.2rem 1rem; border:1px solid rgba(255,255,255,0.08);
+    }
+    .search-box i { color:#888; margin-right:10px; }
+    .search-box input { background:transparent; border:none; padding:0.6rem 0; color:#fff; outline:none; width:180px; }
+    .search-box input::placeholder { color:#666; }
+    .progress-glass {
+      padding:1rem 2rem; margin-bottom:2.5rem; display:flex; flex-wrap:wrap;
+      align-items:center; gap:2rem; justify-content:space-between;
+    }
+    .progress-info { display:flex; gap:2rem; flex-wrap:wrap; }
+    .progress-info span { display:flex; align-items:center; gap:6px; font-size:0.95rem; }
+    .progress-bar { flex:1; height:8px; background:rgba(255,255,255,0.1); border-radius:10px; min-width:120px; }
+    #progressFill { height:100%; background:linear-gradient(90deg,#ff6b81,#ff4757); border-radius:10px; transition:width 0.6s ease; }
+    .grid-container {
+      display:grid; grid-template-columns:repeat(10,1fr); gap:1rem;
+    }
+    .card {
+      aspect-ratio:1/1.2; background:rgba(255,255,255,0.04); border-radius:16px;
+      border:1px solid rgba(255,255,255,0.06); display:flex; flex-direction:column;
+      align-items:center; justify-content:center; cursor:pointer; transition:0.3s;
+      text-align:center; padding:0.5rem; position:relative; transform-style:preserve-3d;
+      perspective:600px;
+    }
+    .card:hover { transform:scale(1.03); box-shadow:0 0 30px rgba(255,107,129,0.15); }
+    .card .front,.card .back {
+      position:absolute; inset:0; backface-visibility:hidden; border-radius:16px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0.8rem;
+    }
+    .card .back { transform:rotateY(180deg); background:rgba(255,255,255,0.06); }
+    .card.flipped .front { transform:rotateY(180deg); }
+    .card.flipped .back { transform:rotateY(0); }
+    .card i { font-size:2rem; color:#ff6b81; margin-bottom:8px; }
+    .card .num { font-size:0.9rem; font-weight:600; color:#aaa; }
+    .card .lock { font-size:1.2rem; color:#888; margin-top:6px; }
+    .card.unlocked .lock { color:#ff6b81; }
+    .card .reason-text { font-size:0.75rem; padding:0 0.3rem; color:#ddd; line-height:1.3; }
+    .card.rare { border:2px solid #ffd700; box-shadow:0 0 40px rgba(255,215,0,0.3); animation:glowPulse 2s infinite; }
+    .card.rare .num { color:#ffd700; }
+    @keyframes glowPulse { 0%{box-shadow:0 0 20px rgba(255,215,0,0.3);}50%{box-shadow:0 0 60px rgba(255,215,0,0.6);}100%{box-shadow:0 0 20px rgba(255,215,0,0.3);} }
+    .gift-box {
+      width:200px; height:200px; background:linear-gradient(145deg,#ff6b81,#e8435e);
+      border-radius:30px; display:flex; flex-direction:column; align-items:center;
+      justify-content:center; font-size:4rem; cursor:pointer; transition:0.4s;
+      margin:2rem auto; box-shadow:0 20px 60px rgba(255,107,129,0.3);
+      animation:floatGift 3s ease-in-out infinite;
+    }
+    .gift-box:hover { transform:scale(1.05) rotate(-2deg); }
+    .gift-box span { font-size:1rem; margin-top:10px; font-weight:600; }
+    @keyframes floatGift { 0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);} }
+    #surpriseContent { padding:2rem; max-width:600px; margin:auto; text-align:center; }
+    .hidden { display:none; }
+    #complimentDisplay { margin-top:1.5rem; font-style:italic; color:#f0e6ff; }
+    .countdown { font-size:2.5rem; margin:1.5rem 0; color:#ff6b81; }
+    .glass-footer {
+      padding:1.5rem 2rem; display:flex; justify-content:space-between; align-items:center;
+      margin-top:3rem; border-top:1px solid rgba(255,255,255,0.06);
+    }
+    .popup-overlay {
+      display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8);
+      backdrop-filter:blur(12px); z-index:2000; align-items:center; justify-content:center;
+    }
+    .popup-overlay.active { display:flex; }
+    .popup-content {
+      max-width:600px; width:90%; padding:2.5rem; position:relative;
+      max-height:80vh; overflow-y:auto;
+    }
+    .popup-close {
+      position:absolute; top:15px; right:25px; font-size:2.5rem; cursor:pointer; color:#fff; transition:0.3s;
+    }
+    .popup-close:hover { color:#ff6b81; transform:rotate(90deg); }
+    @media (max-width:1024px) { .grid-container { grid-template-columns:repeat(5,1fr); } }
+    @media (max-width:768px) {
+      .landing-card { padding:2rem; margin:1rem; }
+      .landing-card h1 { font-size:2.2rem; }
+      .grid-container { grid-template-columns:repeat(2,1fr); }
+      .section-header { flex-direction:column; align-items:stretch; }
+      .search-box input { width:100%; }
+      .progress-glass { flex-direction:column; gap:1rem; }
+      .gift-box { width:150px; height:150px; font-size:3rem; }
+    }
+    @media (max-width:480px) {
+      .landing-card h1 { font-size:1.8rem; }
+      .btn { padding:0.6rem 1.2rem; font-size:0.85rem; }
+      .glass-nav { padding:0.5rem 1rem; }
+      .grid-container { grid-template-columns:repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <section id="page1" class="page active">
+    <div class="landing">
+      <div class="landing-bg"></div>
+      <div class="glass-card landing-card" data-aos="zoom-in" data-aos-duration="1200">
+        <h1 class="playfair">100 Reasons Why I Love You</h1>
+        <p class="subtitle">For My Chikuu</p>
+        <div class="btn-group">
+          <button id="startExploring" class="btn primary pulse-btn"><i class="fas fa-compass"></i> Start Exploring</button>
+          <button id="musicToggleLanding" class="btn icon-btn music-toggle"><i class="fas fa-music"></i></button>
+        </div>
+        <p style="margin-top:1.5rem;font-size:0.85rem;opacity:0.6;"><i class="fas fa-heart" style="color:#ff6b81;"></i> 100 reasons of love</p>
+      </div>
+      <div id="particles"></div>
+      <div class="floating-hearts"></div>
+    </div>
+  </section>
+
+  <section id="page2" class="page">
+    <nav class="glass-nav" id="navbar">
+      <div class="nav-logo"><i class="fas fa-heart"></i> Chikuu</div>
+      <div class="nav-controls">
+        <span class="progress-indicator" id="progressIndicator"><i class="fas fa-chart-simple"></i> 0%</span>
+        <button id="musicToggleNav" class="icon-btn music-toggle"><i class="fas fa-music"></i></button>
+        <button id="nextToSurpriseBtn" class="btn" style="padding:0.4rem 1.2rem;font-size:0.85rem;"><i class="fas fa-arrow-right"></i> Next</button>
+      </div>
+    </nav>
+    <div class="section" id="reasonsSection">
+      <div class="section-header">
+        <h2><i class="fas fa-heart"></i> All Reasons</h2>
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="cute">Cute</button>
+          <button class="filter-btn" data-filter="funny">Funny</button>
+          <button class="filter-btn" data-filter="sweet">Sweet</button>
+          <button class="filter-btn" data-filter="romantic">Romantic</button>
+          <button class="filter-btn" data-filter="future">Future</button>
+          <button class="filter-btn" data-filter="special">Special</button>
+        </div>
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search reasons..." />
+        </div>
+      </div>
+      <div class="progress-glass">
+        <div class="progress-info">
+          <span><i class="fas fa-unlock"></i> Opened: <span id="openedCount">0</span></span>
+          <span><i class="fas fa-lock"></i> Remaining: <span id="remainingCount">100</span></span>
+          <span><i class="fas fa-percent"></i> <span id="progressPercent">0</span>%</span>
+        </div>
+        <div class="progress-bar"><div id="progressFill" style="width:0%"></div></div>
+      </div>
+      <div class="grid-container" id="cardGrid"></div>
+    </div>
+  </section>
+
+  <section id="page3" class="page">
+    <nav class="glass-nav" id="navbarSurprise">
+      <div class="nav-logo"><i class="fas fa-heart"></i> Chikuu</div>
+      <div class="nav-controls">
+        <button id="musicToggleSurprise" class="icon-btn music-toggle"><i class="fas fa-music"></i></button>
+      </div>
+    </nav>
+    <div class="section surprise-section">
+      <h2><i class="fas fa-gift"></i> Surprise</h2>
+      <p style="text-align:center;opacity:0.7;margin-bottom:2rem;">You've unlocked all 100 reasons! Here's a special surprise for you.</p>
+      <div class="gift-box" id="giftBox">
+        <i class="fas fa-gift"></i>
+        <span>Click Me</span>
+      </div>
+      <div id="surpriseContent" class="glass-card hidden">
+        <p id="loveLetter"></p>
+        <button id="complimentBtn" class="btn primary"><i class="fas fa-star"></i> Random Compliment</button>
+        <p id="complimentDisplay"></p>
+        <div class="countdown" id="countdownTimer"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="glass-footer" id="mainFooter">
+    <p><i class="fas fa-heart" style="color:#ff6b81;"></i> Made with Love for Chikuu <span id="year"></span></p>
+    <button id="backToTop" class="btn icon-btn"><i class="fas fa-arrow-up"></i></button>
+  </footer>
+</div>
+
+<div id="musicPopup" class="popup-overlay active">
+  <div class="popup-content glass-card" style="text-align:center;" data-aos="fade-up" data-aos-duration="1000">
+    <h2 style="color:#ff6b81;margin-bottom:1rem;">🎵 Start the Music</h2>
+    <p style="margin-bottom:2rem;font-size:1.1rem;">Would you like to play a romantic song while exploring?</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <button id="musicYesBtn" class="btn primary"><i class="fas fa-music"></i> Yes, Play Music</button>
+      <button id="musicNoBtn" class="btn secondary" style="background:rgba(255,255,255,0.1);"><i class="fas fa-volume-mute"></i> No Thanks</button>
+    </div>
+  </div>
+</div>
+
+<div id="popupOverlay" class="popup-overlay">
+  <div class="popup-content glass-card">
+    <span class="popup-close">&times;</span>
+    <div id="popupBody"></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 800, once: true, mirror: false });
+
+  const reasons = [
+    { id:1,text:"You make every morning feel like sunshine 🌅",category:"cute" },
+    { id:2,text:"Your laugh is my favorite melody 🎵",category:"sweet" },
+    { id:3,text:"You always know what to say to make me smile 😊",category:"cute" },
+    { id:4,text:"You're the best part of my day 🌟",category:"romantic" },
+    { id:5,text:"Your hugs feel like home 🏠",category:"sweet" },
+    { id:6,text:"You're so cute when you're sleepy 😴",category:"cute" },
+    { id:7,text:"You make me want to be a better person 💪",category:"appreciation" },
+    { id:8,text:"Your eyes are like stars ✨",category:"romantic" },
+    { id:9,text:"You're my favorite person to annoy 😜",category:"funny" },
+    { id:10,text:"You make ordinary moments magical 🪄",category:"sweet" },
+    { id:11,text:"Your voice calms my soul 🌊",category:"romantic" },
+    { id:12,text:"You're so smart and it amazes me 🧠",category:"appreciation" },
+    { id:13,text:"You always support my dreams 🌈",category:"future" },
+    { id:14,text:"You're my favorite good morning text 📱",category:"cute" },
+    { id:15,text:"You're the peanut butter to my jelly 🥜",category:"funny" },
+    { id:16,text:"Your smile lights up the room 💡",category:"sweet" },
+    { id:17,text:"You're so strong and resilient 🌻",category:"appreciation" },
+    { id:18,text:"You make my heart skip a beat 💓",category:"romantic" },
+    { id:19,text:"You're my favorite person to travel with 🌍",category:"future" },
+    { id:20,text:"You're my forever adventure 🗺️",category:"special" },
+    { id:21,text:"You smell like heaven 🌸",category:"romantic" },
+    { id:22,text:"You're so funny when you're mad 😂",category:"funny" },
+    { id:23,text:"You always know how to cheer me up 🎈",category:"sweet" },
+    { id:24,text:"You're my favorite person to cuddle 🧸",category:"cute" },
+    { id:25,text:"You're so passionate about everything 🔥",category:"appreciation" },
+    { id:26,text:"You make me feel so loved 💖",category:"romantic" },
+    { id:27,text:"You're my sunshine on a rainy day ☀️",category:"sweet" },
+    { id:28,text:"You're so adorable when you're focused 😤",category:"cute" },
+    { id:29,text:"You're the best thing that ever happened to me 🍀",category:"romantic" },
+    { id:30,text:"You're my favorite person to cook with 🍳",category:"future" },
+    { id:31,text:"Your laugh is contagious 🤣",category:"funny" },
+    { id:32,text:"You're so thoughtful and kind 🌹",category:"sweet" },
+    { id:33,text:"You make me feel so safe 🛡️",category:"appreciation" },
+    { id:34,text:"You're my dream come true 🌠",category:"romantic" },
+    { id:35,text:"You're so cute when you're surprised 😲",category:"cute" },
+    { id:36,text:"You're my favorite person to talk to 📞",category:"future" },
+    { id:37,text:"You're so brave and fearless 🦁",category:"appreciation" },
+    { id:38,text:"Your touch gives me butterflies 🦋",category:"romantic" },
+    { id:39,text:"You're my favorite person to watch movies with 🎬",category:"future" },
+    { id:40,text:"You're my forever memory 📸",category:"special" },
+    { id:41,text:"You're so patient with me 🙏",category:"appreciation" },
+    { id:42,text:"You're my favorite person to dance with 💃",category:"funny" },
+    { id:43,text:"You make me feel so special 🎁",category:"sweet" },
+    { id:44,text:"You're my favorite person to shop with 🛍️",category:"future" },
+    { id:45,text:"You're so beautiful inside and out 🌺",category:"romantic" },
+    { id:46,text:"You're my favorite person to play games with 🎮",category:"funny" },
+    { id:47,text:"You always make time for me ⏰",category:"appreciation" },
+    { id:48,text:"You're my favorite person to nap with 💤",category:"cute" },
+    { id:49,text:"You're so generous and giving 🤲",category:"appreciation" },
+    { id:50,text:"You're my forever home 🏡",category:"romantic" },
+    { id:51,text:"You're my favorite person to sing with 🎤",category:"funny" },
+    { id:52,text:"You make every day feel like a holiday 🎉",category:"sweet" },
+    { id:53,text:"You're so adventurous and fun 🏄",category:"future" },
+    { id:54,text:"You're my favorite person to dream with 💭",category:"romantic" },
+    { id:55,text:"You're so understanding and compassionate 💕",category:"appreciation" },
+    { id:56,text:"You're my favorite person to grow old with 👴",category:"future" },
+    { id:57,text:"You're so charming and witty 🥰",category:"cute" },
+    { id:58,text:"You make me feel so proud 🏆",category:"appreciation" },
+    { id:59,text:"You're my favorite person to celebrate with 🥂",category:"future" },
+    { id:60,text:"You're my forever surprise 🎊",category:"special" },
+    { id:61,text:"You're so elegant and graceful 🦢",category:"romantic" },
+    { id:62,text:"You're my favorite person to be silly with 🤪",category:"funny" },
+    { id:63,text:"You make me feel so valued 💎",category:"appreciation" },
+    { id:64,text:"You're my favorite person to explore with 🧭",category:"future" },
+    { id:65,text:"You're so warm and cuddly 🐻",category:"cute" },
+    { id:66,text:"You're my favorite person to learn with 📚",category:"future" },
+    { id:67,text:"You're so creative and inspiring 🎨",category:"appreciation" },
+    { id:68,text:"You make my world brighter 🌟",category:"romantic" },
+    { id:69,text:"You're my favorite person to work out with 🏋️",category:"funny" },
+    { id:70,text:"You're my forever partner in crime 🕵️",category:"special" },
+    { id:71,text:"You're so gentle and kind 🕊️",category:"sweet" },
+    { id:72,text:"You're my favorite person to cook for 🍝",category:"future" },
+    { id:73,text:"You make me feel so grateful 🙌",category:"appreciation" },
+    { id:74,text:"You're my favorite person to talk to at night 🌙",category:"romantic" },
+    { id:75,text:"You're so funny when you're sleepy 😴",category:"funny" },
+    { id:76,text:"You're my favorite person to travel back in time with ⏳",category:"future" },
+    { id:77,text:"You're so honest and trustworthy 🤝",category:"appreciation" },
+    { id:78,text:"You make me feel so alive 🍃",category:"romantic" },
+    { id:79,text:"You're my favorite person to do nothing with 🛋️",category:"cute" },
+    { id:80,text:"You're my forever timeline 📜",category:"special" },
+    { id:81,text:"You're so radiant and glowing ✨",category:"romantic" },
+    { id:82,text:"You're my favorite person to joke with 🤡",category:"funny" },
+    { id:83,text:"You make me feel so understood 🧩",category:"appreciation" },
+    { id:84,text:"You're my favorite person to plan with 📅",category:"future" },
+    { id:85,text:"You're so cozy and comforting 🛏️",category:"sweet" },
+    { id:86,text:"You're my favorite person to watch sunsets with 🌅",category:"romantic" },
+    { id:87,text:"You're so spontaneous and fun 🎆",category:"future" },
+    { id:88,text:"You make me feel so cherished 💝",category:"appreciation" },
+    { id:89,text:"You're my favorite person to share secrets with 🤫",category:"cute" },
+    { id:90,text:"You're my forever lucky charm 🍀",category:"special" },
+    { id:91,text:"You're so patient and loving 🐢",category:"sweet" },
+    { id:92,text:"You're my favorite person to eat with 🍕",category:"funny" },
+    { id:93,text:"You make me feel so inspired 🌠",category:"appreciation" },
+    { id:94,text:"You're my favorite person to stargaze with 🌌",category:"romantic" },
+    { id:95,text:"You're so playful and fun 🎾",category:"cute" },
+    { id:96,text:"You're my favorite person to dream about 💤",category:"future" },
+    { id:97,text:"You're so resilient and strong 🌳",category:"appreciation" },
+    { id:98,text:"You make my heart sing 🎶",category:"romantic" },
+    { id:99,text:"You're my favorite person to call mine 💍",category:"future" },
+    { id:100,text:"You're my forever and always, my Chikuu 🌹❤️",category:"special" }
+  ];
+
+  let opened = [];
+  let musicPlaying = false;
+  let audioElement = null;
+  let currentPage = 1;
+  let restartPopupShown = false;
+  let countdownInterval = null;
+
+  function showPopup(html) {
+    const overlay = document.getElementById('popupOverlay');
+    document.getElementById('popupBody').innerHTML = html;
+    overlay.classList.add('active');
+    // Trigger AOS for popup content
+    setTimeout(() => { AOS.refresh(); }, 100);
+  }
+  function hidePopup() { document.getElementById('popupOverlay').classList.remove('active'); }
+
+  function showPage(pageNum) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page'+pageNum).classList.add('active');
+    currentPage = pageNum;
+    if (pageNum === 2) renderReasons();
+    window.scrollTo({ top:0, behavior:'smooth' });
+    setTimeout(() => { AOS.refresh(); }, 200);
+  }
+
+  function toggleMusic() {
+    if (audioElement) {
+      if (musicPlaying) { audioElement.pause(); musicPlaying=false; }
+      else { audioElement.play(); musicPlaying=true; }
+    } else {
+      audioElement = new Audio('assets/audio/song.mp3');
+      audioElement.loop = true; audioElement.volume = 0.5;
+      audioElement.play().catch(()=>{});
+      musicPlaying = true;
+    }
+    document.querySelectorAll('.music-toggle').forEach(el => {
+      el.innerHTML = musicPlaying ? '<i class="fas fa-music"></i>' : '<i class="fas fa-music-slash"></i>';
+    });
+  }
+
+  function renderReasons(filter='all', search='') {
+    const grid = document.getElementById('cardGrid');
+    grid.innerHTML = '';
+    let filtered = reasons.filter(r => {
+      const catMatch = filter==='all' || r.category===filter;
+      const searchMatch = r.text.toLowerCase().includes(search.toLowerCase());
+      return catMatch && searchMatch;
+    });
+    filtered.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      if (opened.includes(r.id)) card.classList.add('flipped','unlocked');
+      if ([20,40,60,80,100].includes(r.id)) card.classList.add('rare');
+      card.dataset.id = r.id;
+      card.setAttribute('data-aos','fade-up');
+      card.setAttribute('data-aos-delay', (r.id % 10) * 50);
+      card.innerHTML = `
+        <div class="front"><i class="fas fa-heart"></i><span class="num">#${r.id}</span><span class="lock"><i class="fas fa-lock"></i></span></div>
+        <div class="back"><i class="fas fa-heart" style="color:#ff6b81;"></i><span class="reason-text">${r.text}</span><span class="lock"><i class="fas fa-unlock"></i></span></div>
+      `;
+      card.addEventListener('click', (e) => handleCardClick(e, r.id));
+      grid.appendChild(card);
+    });
+    updateProgress();
+    setTimeout(() => { AOS.refresh(); }, 100);
+  }
+
+  function handleCardClick(e, id) {
+    const reason = reasons.find(r => r.id === id);
+    const alreadyOpened = opened.includes(id);
+    if (!alreadyOpened) {
+      const card = e.currentTarget;
+      card.classList.add('flipped','unlocked');
+      opened.push(id);
+      updateProgress();
+      if ([20,40,60,80,100].includes(id)) triggerSpecial(id);
+      if (opened.length === 100) {
+        showPopup(`
+          <h3 style="color:#ff6b81;" data-aos="fade-up">❤️ Reason #${id}</h3>
+          <p style="font-size:1.2rem;margin:1.5rem 0;" data-aos="fade-up" data-aos-delay="200">${reason.text}</p>
+          <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.1);" data-aos="fade-up" data-aos-delay="400">
+            <p style="color:#ffd700;font-size:1.1rem;margin-bottom:1.5rem;">🎉 You've unlocked all 100 reasons! <br>Now it's time for a special surprise.</p>
+            <button class="btn primary" onclick="hidePopup(); showPage(3);" style="width:100%;justify-content:center;"><i class="fas fa-gift"></i> Next → Surprise</button>
+          </div>
+        `);
+        return;
+      }
+    }
+    showPopup(`
+      <h3 style="color:#ff6b81;" data-aos="fade-up">❤️ Reason #${id}</h3>
+      <p style="font-size:1.2rem;margin:1.5rem 0;" data-aos="fade-up" data-aos-delay="200">${reason.text}</p>
+      <p style="color:#888;font-size:0.9rem;" data-aos="fade-up" data-aos-delay="300"><i class="fas ${alreadyOpened?'fa-check-circle':'fa-unlock'}" style="color:${alreadyOpened?'#4caf50':'#ff6b81'};"></i> ${alreadyOpened?'Already opened':'Just unlocked! 💕'}</p>
+      ${opened.length<100?`<p style="color:#666;font-size:0.8rem;margin-top:0.8rem;" data-aos="fade-up" data-aos-delay="400">${opened.length}/100 reasons unlocked</p>`:''}
+    `);
+  }
+
+  function updateProgress() {
+    const total = reasons.length;
+    const openedCount = opened.length;
+    document.getElementById('openedCount').textContent = openedCount;
+    document.getElementById('remainingCount').textContent = total - openedCount;
+    const pct = Math.round((openedCount/total)*100);
+    document.getElementById('progressPercent').textContent = pct;
+    document.getElementById('progressFill').style.width = pct+'%';
+    document.querySelector('.progress-indicator').innerHTML = `<i class="fas fa-chart-simple"></i> ${pct}%`;
+  }
+
+  function triggerSpecial(id) {
+    let msg = '';
+    if (id===20) msg='📸 Photo gallery popup! (Special reason 20)';
+    else if (id===40) msg='🎞️ Memory slideshow! (Special reason 40)';
+    else if (id===60) msg='🎤 Voice message player! (Special reason 60)';
+    else if (id===80) msg='📜 Beautiful animated timeline! (Special reason 80)';
+    else if (id===100) return;
+    showPopup(`<h3 style="color:#ffd700;" data-aos="fade-up">⭐ Special Reason #${id}</h3><p style="font-size:1.2rem;margin:1.5rem 0;" data-aos="fade-up" data-aos-delay="200">${msg}</p>`);
+  }
+
+  function initSurprise() {
+    document.getElementById('giftBox').addEventListener('click', ()=>{
+      document.getElementById('surpriseContent').classList.toggle('hidden');
+      if (!document.getElementById('surpriseContent').classList.contains('hidden')) {
+        const letter = 'My Chikuu, you are the most wonderful person I know. Every day with you is a treasure. I love you more than all the stars in the sky. 💖🌹✨';
+        document.getElementById('loveLetter').textContent = letter;
+        startCountdown();
+        showPopup(`
+          <h3 style="color:#ff6b81;" data-aos="fade-up">🎁 Surprise!</h3>
+          <p style="font-size:1.2rem;margin:1.5rem 0;" data-aos="fade-up" data-aos-delay="200">${letter}</p>
+        `);
+      }
+    });
+    document.getElementById('complimentBtn').addEventListener('click', ()=>{
+      const compliments = ["You're more beautiful than a sunrise 🌅","Your smile is my favorite thing in the world 😊","You're incredibly smart and witty 🧠","You have a heart of gold 💛","You're my favorite person, period 💕","You make everything better just by being you 🌟","You're so strong and brave 🦋","Your laugh is pure magic 🎵","You're the most thoughtful person I know 🌹","You're perfect just the way you are 💖"];
+      document.getElementById('complimentDisplay').textContent = compliments[Math.floor(Math.random()*compliments.length)];
+    });
+  }
+
+  function startCountdown() {
+    if (countdownInterval) clearInterval(countdownInterval);
+    let seconds = 10;
+    const timer = document.getElementById('countdownTimer');
+    timer.textContent = seconds+'s';
+    countdownInterval = setInterval(()=>{
+      seconds--;
+      timer.textContent = seconds+'s';
+      if (seconds <= 0) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+        timer.textContent = '💖 Love you!';
+        // Show restart popup with AOS
+        if (!restartPopupShown) {
+          restartPopupShown = true;
+          showPopup(`
+            <h3 style="color:#ff6b81;" data-aos="fade-up">💖 Love you forever, Chikuu!</h3>
+            <p style="font-size:1.1rem;margin:1.5rem 0;" data-aos="fade-up" data-aos-delay="200">You've completed the journey. Would you like to start over?</p>
+            <button class="btn primary" onclick="restartApp()" style="width:100%;justify-content:center;" data-aos="fade-up" data-aos-delay="400"><i class="fas fa-redo"></i> Restart Experience</button>
+          `);
+        }
+      }
+    }, 1000);
+  }
+
+  function restartApp() {
+    // Reset all state
+    opened = [];
+    restartPopupShown = false;
+    if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+    document.getElementById('surpriseContent').classList.add('hidden');
+    document.getElementById('countdownTimer').textContent = '';
+    document.getElementById('complimentDisplay').textContent = '';
+    updateProgress();
+    hidePopup();
+    showPage(1);
+    // Reset music if needed
+    if (audioElement && musicPlaying) {
+      audioElement.currentTime = 0;
+      audioElement.play().catch(()=>{});
+    }
+  }
+
+  function initParticles() {
+    const container = document.getElementById('particles');
+    for (let i=0;i<40;i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.width = (4+Math.random()*10)+'px';
+      p.style.height = p.style.width;
+      p.style.left = Math.random()*100+'%';
+      p.style.top = Math.random()*100+'%';
+      p.style.animationDelay = Math.random()*10+'s';
+      p.style.animationDuration = (8+Math.random()*10)+'s';
+      container.appendChild(p);
+    }
+  }
+  function initHearts() {
+    const container = document.querySelector('.floating-hearts');
+    for (let i=0;i<15;i++) {
+      const h = document.createElement('div');
+      h.className = 'heart-float';
+      h.textContent = '❤️';
+      h.style.left = Math.random()*100+'%';
+      h.style.animationDelay = Math.random()*14+'s';
+      h.style.animationDuration = (10+Math.random()*10)+'s';
+      h.style.fontSize = (1.2+Math.random()*2)+'rem';
+      container.appendChild(h);
+    }
+  }
+
+  function setupFilters() {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        const search = document.getElementById('searchInput').value;
+        renderReasons(filter, search);
+      });
+    });
+    document.getElementById('searchInput').addEventListener('input', (e)=>{
+      const active = document.querySelector('.filter-btn.active');
+      const filter = active ? active.dataset.filter : 'all';
+      renderReasons(filter, e.target.value);
+    });
+  }
+
+  function initNav() {
+    document.getElementById('startExploring').addEventListener('click', ()=>{ showPage(2); });
+    document.getElementById('backToTop').addEventListener('click', ()=>{ window.scrollTo({top:0,behavior:'smooth'}); });
+    document.querySelectorAll('.music-toggle').forEach(el => { el.addEventListener('click', toggleMusic); });
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('nextToSurpriseBtn').addEventListener('click', ()=>{
+      if (opened.length >= 100) {
+        showPage(3);
+      } else {
+        showPopup(`<h3 style="color:#ff6b81;">🔒 Not yet!</h3><p style="font-size:1.1rem;margin:1.5rem 0;">You need to unlock all 100 reasons first. (${opened.length}/100)</p>`);
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    // Music popup with AOS
+    document.getElementById('musicPopup').classList.add('active');
+    setTimeout(() => { AOS.refresh(); }, 100);
+
+    document.getElementById('musicYesBtn').addEventListener('click', ()=>{
+      document.getElementById('musicPopup').classList.remove('active');
+      audioElement = new Audio('assets/audio/song.mp3');
+      audioElement.loop = true; audioElement.volume = 0.5;
+      audioElement.play().catch(()=>{});
+      musicPlaying = true;
+      document.querySelectorAll('.music-toggle').forEach(el => { el.innerHTML = '<i class="fas fa-music"></i>'; });
+    });
+    document.getElementById('musicNoBtn').addEventListener('click', ()=>{
+      document.getElementById('musicPopup').classList.remove('active');
+      musicPlaying = false;
+      document.querySelectorAll('.music-toggle').forEach(el => { el.innerHTML = '<i class="fas fa-music-slash"></i>'; });
+    });
+    document.querySelector('.popup-close').addEventListener('click', hidePopup);
+    document.getElementById('popupOverlay').addEventListener('click', (e)=>{ if(e.target===e.currentTarget) hidePopup(); });
+    initParticles();
+    initHearts();
+    initSurprise();
+    setupFilters();
+    initNav();
+    showPage(1);
+    // Expose restartApp globally
+    window.restartApp = restartApp;
+  });
+</script>
+</body>
+</html>
